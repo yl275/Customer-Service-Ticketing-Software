@@ -4,7 +4,7 @@ import { relations } from "drizzle-orm"
 export const customers = pgTable("customers", {
     id: serial("id").primaryKey(),
     firstName: varchar("first_name").notNull(),
-    lastname: varchar("last_name").notNull(),
+    lastName: varchar("last_name").notNull(),
     email: varchar("email").unique().notNull(),
     phone: varchar("phone").unique().notNull(),
     address1: varchar("address1").notNull(),
