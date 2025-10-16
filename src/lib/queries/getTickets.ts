@@ -30,7 +30,7 @@ export async function getTicketsSearchResults(searchText: string) {
             ilike(customers.zip, `%${searchText}%`),
             ilike(customers.city, `%${searchText}%`),
             sql`lower(concat(${customers.firstName}, ' ', ${customers.lastName})) 
-            LIKE${`%${searchText.toLowerCase().replace(' ', '%' )}%`}`,
+            LIKE ${`%${searchText.toLowerCase().replace(' ', '%' )}%`}`,
         )).orderBy(asc(tickets.createdAt)) //FIFO
 
     return results

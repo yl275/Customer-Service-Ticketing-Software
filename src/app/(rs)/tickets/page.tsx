@@ -1,7 +1,7 @@
 import { getTicketsSearchResults } from "@/lib/queries/getTickets";
 import TicketSearch from "./TicketSearch";
-import { getOpenTickets } from "@/lib/queries/getOpenTickets";
-
+import { getAllTickets } from "@/lib/queries/getOpenTickets";
+import TicketTable from "./TicketTable";
 export const metadata = {
     title: "Ticket Search"
 }
@@ -11,11 +11,12 @@ export default async function Home({searchParams}: {
 }) {
     const {searchText} = await searchParams;
     if(!searchText) {
-        const results = await getOpenTickets();
+        const results = await getAllTickets();
         return (
             <>
                 <TicketSearch/>
-                <p>{JSON.stringify(results)}</p>
+                {/* <p>{JSON.stringify(results)}</p> */}
+                {results.length ? <TicketTable data={results}/> : null}
             </>
             )
     }
@@ -24,6 +25,10 @@ export default async function Home({searchParams}: {
     return(
     <>
         <TicketSearch/>
-        <p>{JSON.stringify(results)}</p>
+
+        {results.length 
+        ? <TicketTable data={results}/> 
+        : <p>No results found</p>}
+
     </>)
 }
