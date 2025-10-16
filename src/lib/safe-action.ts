@@ -1,3 +1,4 @@
+import { Constructor } from './../../node_modules/zod/src/v4/core/util';
 
 
 import { createSafeActionClient } from 'next-safe-action'
@@ -19,9 +20,10 @@ export const actionClient = createSafeActionClient({
             scope.setContext('clientInput', { clientInput });
             return scope
         })
-        if(e.constructor.name === 'DatabaseError') {
+        if(e.constructor.name === 'DrizzleQueryError') {
             return "Database Error: Your data did not save. Support will be notified."
         }
+
         return e.message
     }
 });

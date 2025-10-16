@@ -2,7 +2,7 @@
 
 import { FieldErrors } from './../../node_modules/react-hook-form/dist/types/errors.d';
 
-import { eq } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import { FlattenedValidationErrors, flattenValidationErrors } from 'next-safe-action'
 import { redirect } from 'next/navigation'
 
@@ -24,8 +24,6 @@ export const saveCustomerAction = actionClient
     const { isAuthenticated } = getKindeServerSession();
     const isAuth = await isAuthenticated();
     if(!isAuth) redirect('/login');
-
-    throw Error("test error")
 
     // New Customer
     if(customer.id === 0) {
