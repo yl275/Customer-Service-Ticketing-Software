@@ -9,5 +9,5 @@ export default function LoginPage() {
         <LoginLink>Sign in</LoginLink>
       </Button>
     </main>
-  )
+  );
 }

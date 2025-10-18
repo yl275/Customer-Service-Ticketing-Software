@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { customers } from "@/db/schema";
-import {z} from "zod"
+import { z } from "zod";
 
 export const insertCustomerSchema = createInsertSchema(customers, {
   firstName: (schema) => schema.min(1, "First name is required"),
@@ -11,11 +11,10 @@ export const insertCustomerSchema = createInsertSchema(customers, {
   email: (schema) => schema.email("Invalid email address"),
   zip: (schema) => schema.regex(/^\d{4}$/, "Invalid Zip code"),
   phone: (schema) =>
-    schema.regex(/^(?:\+?61|0)4\d{8}$/, 
-        "Invalid Australian phone number"),
+    schema.regex(/^(?:\+?61|0)4\d{8}$/, "Invalid Australian phone number"),
 });
 
-export const selectCustomerSchema = createSelectSchema(customers)
+export const selectCustomerSchema = createSelectSchema(customers);
 
 export type insertCustomerSchemaType = z.infer<typeof insertCustomerSchema>;
 export type selectCustomerSchemaType = z.infer<typeof selectCustomerSchema>;

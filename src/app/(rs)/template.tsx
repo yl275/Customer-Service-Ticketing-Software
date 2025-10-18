@@ -1,13 +1,7 @@
 export default async function Template({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode;
 }) {
-    return (
-        <div className="animate-appear">
-            
-                {children}
-            
-        </div>
-    )
+  return <div className="animate-appear">{children}</div>;
 }
