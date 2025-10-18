@@ -234,7 +234,7 @@ export default function TicketTable({ data }: Props) {
         <div>
           <p className="whitespace-nowrap font-bold">
             {`Page ${table.getState().pagination.pageIndex + 1} 
-                    of ${table.getPageCount()}`}
+                    of ${table.getPageCount() < 1 ? 1: table.getPageCount()}`}
             &nbsp;&nbsp;
             {`[${table.getFilteredRowModel().rows.length} 
                     ${
