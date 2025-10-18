@@ -12,13 +12,12 @@ export default async function Customers({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const { searchText } = await searchParams;
-
-  if (!searchText) return <CustomerSearch />;
+  const searchText  = (await searchParams)?.searchText || '';
+  ;
   const span = Sentry.startInactiveSpan({
     name: "getCustomerSearchResults-2",
   });
-  const results = await getCustomerSearchResults(searchText);
+  const results = await getCustomerSearchResults(searchText)
   span.end();
 
   return (

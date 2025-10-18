@@ -18,9 +18,9 @@ export default function Header() {
             w-full "
       >
         <div className="flex items-center gap-2">
-          <NavButton href="/home" label="Home" icon={HomeIcon} />
+          <NavButton href="/tickets" label="Home" icon={HomeIcon} />
           <Link
-            href="/home"
+            href="/tickets"
             className="flex justify-center items-center gap-2 ml-0"
             title="Home"
           >

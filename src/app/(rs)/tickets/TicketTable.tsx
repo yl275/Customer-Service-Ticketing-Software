@@ -205,21 +205,22 @@ export default function TicketTable({ data }: Props) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-between items-center gap-1 flex-wrap">
-        <p className="whitespace-nowrap font-bold">
-          {`Page ${table.getState().pagination.pageIndex + 1} 
-                of ${table.getPageCount()}`}
-          &nbsp;&nbsp;
-          {`[${table.getFilteredRowModel().rows.length} 
-                ${
-                  table.getFilteredRowModel().rows.length === 1
-                    ? "total results"
-                    : "results"
-                }]`}
-        </p>
-        <div className="flex basis-1/3"></div>
+      <div className="flex justify-between items-center flex-wrap">
+        <div>
+            <p className="whitespace-nowrap font-bold">
+            {`Page ${table.getState().pagination.pageIndex + 1} 
+                    of ${table.getPageCount()}`}
+            &nbsp;&nbsp;
+            {`[${table.getFilteredRowModel().rows.length} 
+                    ${
+                    table.getFilteredRowModel().rows.length === 1
+                        ? "total results"
+                        : "results"
+                    }]`}
+            </p>
+        </div>
         <div className="flex flex-row gap-1">
-          <div className="space-x-1">
+          <div className=" flex flex-row gap-1">
             <Button variant="outline" onClick={() => router.refresh()}>
               Refresh Data
             </Button>
@@ -234,7 +235,7 @@ export default function TicketTable({ data }: Props) {
             </Button>
           </div>
 
-          <div>
+          <div className=" flex flex-row gap-1">
             <Button
               variant="outline"
               onClick={() => {
@@ -264,7 +265,7 @@ export default function TicketTable({ data }: Props) {
             </Button>
           </div>
         </div>
+        </div>
       </div>
-    </div>
   );
 }
