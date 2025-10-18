@@ -113,9 +113,14 @@ export default function CustomerTable({ data }: Props) {
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className={`bg-secondary 
-                  ${header.id === 'actions' ? 'w-12' : ''}`}>
-                    <div>
+                  <TableHead
+                    key={header.id}
+                    className={`bg-secondary 
+                  ${header.id === "actions" ? "w-12" : ""}`}
+                  >
+                    <div
+                      className={`${header.id === "actions" ? "flex justify-center items-center" : ""}`}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
