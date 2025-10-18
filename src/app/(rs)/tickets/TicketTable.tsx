@@ -35,7 +35,7 @@ import {
 import { useRouter } from "next/navigation";
 import { TicketSearchResultsType } from "@/lib/queries/getTickets";
 import { Button } from "@/components/ui/button";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Filter from "@/components/react-table/Filter";
 import { usePolling } from "@/app/hooks/usePolling";
@@ -165,6 +165,17 @@ export default function TicketTable({ data }: Props) {
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
   });
+  
+  useEffect(() => {
+    const currentPageIndex = table.getState().pagination.pageIndex
+    const pageCount = table.getPageCount()
+
+    if(pageCount <= currentPageIndex && currentPageIndex > 0) {
+      const params = new URLSearchParams(searchParam.toString())
+      params.set('page', '1')
+      router.replace(`?${params.toString()}`, {scroll: false})
+    }
+  }, [table.getState().columnFilters])
 
   return (
     <div className="mt-6 flex flex-col gap-4">
