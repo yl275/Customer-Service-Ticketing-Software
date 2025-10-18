@@ -73,8 +73,17 @@ export default function TicketTable({ data }: Props) {
     "completed",
   ];
   const columnHelper = createColumnHelper<RowType>();
+  // 5min refresh interval
+  usePolling(300000, searchParam.get("searchText"));
 
-  usePolling(5000, searchParam.get("searchText"));
+  const columnWidths = {
+    completed: 100,
+    ticketDate: 150,
+    title: 200,
+    tech: 230,
+    email: 230,
+
+  }
 
   const columns = columnHeaderArray.map((columnName) => {
     return columnHelper.accessor(
@@ -94,6 +103,7 @@ export default function TicketTable({ data }: Props) {
       },
       {
         id: columnName,
+        size: columnWidths[columnName as keyof typeof columnWidths] ?? undefined,
         header: ({ column }) => {
           return (
             <Button
@@ -165,7 +175,7 @@ export default function TicketTable({ data }: Props) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="bg-secondary p-2">
+                    <TableHead key={header.id} className="bg-secondary p-2" style={{width: header.getSize()}}>
                       <div>
                         {header.isPlaceholder
                           ? null
@@ -176,7 +186,11 @@ export default function TicketTable({ data }: Props) {
                       </div>
                       {header.column.getCanFilter() ? (
                         <div className="grid place-content-center">
-                          <Filter column={header.column} />
+                          <Filter<RowType>
+                            column={header.column}
+                            filteredRows={
+                              table.getFilteredRowModel().rows.map(row => row.getValue(header.column.id))}
+                          />
                         </div>
                       ) : null}
                     </TableHead>
@@ -207,17 +221,17 @@ export default function TicketTable({ data }: Props) {
       </div>
       <div className="flex justify-between items-center flex-wrap">
         <div>
-            <p className="whitespace-nowrap font-bold">
+          <p className="whitespace-nowrap font-bold">
             {`Page ${table.getState().pagination.pageIndex + 1} 
                     of ${table.getPageCount()}`}
             &nbsp;&nbsp;
             {`[${table.getFilteredRowModel().rows.length} 
                     ${
-                    table.getFilteredRowModel().rows.length === 1
+                      table.getFilteredRowModel().rows.length === 1
                         ? "total results"
                         : "results"
                     }]`}
-            </p>
+          </p>
         </div>
         <div className="flex flex-row gap-1">
           <div className=" flex flex-row gap-1">
@@ -265,7 +279,7 @@ export default function TicketTable({ data }: Props) {
             </Button>
           </div>
         </div>
-        </div>
       </div>
+    </div>
   );
 }

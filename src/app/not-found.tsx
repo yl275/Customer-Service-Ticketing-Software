@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata = {
   title: "Page Not Found",
@@ -23,6 +24,14 @@ export default function NotFound() {
           priority={true}
           title="Page Not Found"
         />
+        <Link
+          href="/tickets"
+          className="text-center border-4
+          border-amber-50 p-2 rounded-2xl hover:bg-amber-50/20
+          transition-transform duration-300 hover:scale-105"
+        >
+          <h3>Go Home</h3>
+        </Link>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 export default function Home() {
-  return <Loading/>
+  return <Loading />;
   redirect("/tickets");
   // return <h2>Home Page</h2>
 }
