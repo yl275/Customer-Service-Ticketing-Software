@@ -9,8 +9,6 @@ import { InputWithLabel } from "@/components/inputs/InputWithLabel";
 import { SelectWithLabel } from "@/components/inputs/SelectWithLabel";
 import { TextAreaWithLabel } from "@/components/inputs/TextAreaWithLabel";
 
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-
 import {
   insertCustomerSchema,
   selectCustomerSchemaType,
@@ -25,18 +23,35 @@ import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
 import { DisplayServerActionResponse } from "@/components/DisplayServerActionResponse";
 
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+ 
 type Props = {
   customer?: selectCustomerSchemaType;
+  isManager?: boolean | undefined;
 };
 
-export default function CustomerForm({ customer }: Props) {
-  const { getPermission, getPermissions, isLoading } = useKindeBrowserClient();
-  const isManager = !isLoading && getPermission("manager")?.isGranted;
-  const permObj = getPermissions();
-  // const isAuthorized = !isLoading &&
-  // permObj.permissions.some(perm => perm === 'manager' || perm === 'admin')
+export default function CustomerForm({ customer, isManager }: Props) {
 
-  const defaultValues: insertCustomerSchemaType = {
+  const searchParams = useSearchParams()
+  const hasCustomerId = searchParams.has("customerId")
+
+  const emptyValues: insertCustomerSchemaType =  {
+    id:  0,
+    firstName:  "",
+    lastName: "",
+    address1: "",
+    address2:   "",
+    city: "",
+    state:  "",
+    zip: "",
+    phone:  "",
+    email:  "",
+    notes:  "",
+    active: true,
+  } 
+
+  const defaultValues: insertCustomerSchemaType = hasCustomerId ? {
     id: customer?.id || 0,
     firstName: customer?.firstName || "",
     lastName: customer?.lastName || "",
@@ -49,12 +64,17 @@ export default function CustomerForm({ customer }: Props) {
     email: customer?.email || "",
     notes: customer?.notes || "",
     active: customer?.active || true,
-  };
+  }: emptyValues;
+
   const form = useForm<insertCustomerSchemaType>({
     mode: "onBlur",
     resolver: zodResolver(insertCustomerSchema),
     defaultValues,
   });
+
+  useEffect(() => {
+    form.reset(hasCustomerId ? defaultValues : emptyValues)
+  }, [searchParams.get("customerId")])
 
   const {
     execute: executeSave,
@@ -132,9 +152,7 @@ export default function CustomerForm({ customer }: Props) {
                   nameInSchema="notes"
                   className="h-40"
                 />
-                {isLoading ? (
-                  <p>Loading...</p>
-                ) : isManager ? (
+                { isManager ? (
                   <CheckboxWithLabel<insertCustomerSchemaType>
                     fieldTitle="Active"
                     nameInSchema="active"
@@ -151,7 +169,6 @@ export default function CustomerForm({ customer }: Props) {
                     title="Save"
                     disabled={isSaving}
                   >
-                    Save
                     {isSaving ? (
                       <>
                         <LoaderCircle className="animate-spin" /> Saving

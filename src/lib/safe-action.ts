@@ -1,5 +1,4 @@
-import { Constructor } from "./../../node_modules/zod/src/v4/core/util";
-
+import { NeonDbError } from "@neondatabase/serverless";
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
@@ -12,6 +11,13 @@ export const actionClient = createSafeActionClient({
   },
   handleServerError(e, utils) {
     const { clientInput, metadata } = utils;
+    if (e.cause instanceof NeonDbError ) {
+      const { code, detail } = e.cause;
+      if (code === "23505") {
+        return `Unique entry required. ${detail}`;
+      }
+    }
+    
     Sentry.captureException(e, (scope) => {
       scope.clear();
       scope.setContext("serverError", { message: e.message });
@@ -19,9 +25,7 @@ export const actionClient = createSafeActionClient({
       scope.setContext("clientInput", { clientInput });
       return scope;
     });
-    if (e.constructor.name === "DrizzleQueryError") {
-      return "Database Error: Your data did not save. Support will be notified.";
-    }
+
 
     return e.message;
   },
