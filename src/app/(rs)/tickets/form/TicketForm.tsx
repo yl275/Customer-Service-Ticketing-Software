@@ -35,6 +35,7 @@ type Props = {
     description: string;
   }[];
   isEditable?: boolean;
+  isManager?: boolean | undefined;
 };
 
 export default function TicketForm({
@@ -42,8 +43,9 @@ export default function TicketForm({
   customer,
   techs,
   isEditable = true,
-}: Props) {
-  const isManager = Array.isArray(techs);
+  isManager = false,
+}: Props) { 
+  // const isManager = Array.isArray(techs);
 
   const defaultValues: insertTicketSchemaType = {
     id: ticket?.id ?? "(New)",
@@ -51,7 +53,7 @@ export default function TicketForm({
     title: ticket?.title ?? "",
     description: ticket?.description ?? "",
     completed: ticket?.completed ?? false,
-    tech: ticket?.tech ?? "new-ticket@example.com",
+    tech: ticket?.tech.toLowerCase() ?? "new-ticket@example.com",
   };
   const form = useForm<insertTicketSchemaType>({
     mode: "onBlur",
@@ -110,7 +112,7 @@ export default function TicketForm({
                         id: "new-ticket@example.com",
                         description: "new-ticket@example.com",
                       },
-                      ...techs,
+                      ...(techs ?? []),
                     ]}
                   />
                 ) : (
