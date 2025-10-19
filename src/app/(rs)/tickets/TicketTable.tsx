@@ -53,7 +53,7 @@ export default function TicketTable({ data }: Props) {
   const pageIndex = useMemo(() => {
     const page = searchParam.get("page");
     return page ? parseInt(page) - 1 : 0;
-  }, [searchParam.get("page")]);
+  }, [searchParam.get("page")]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
@@ -175,7 +175,7 @@ export default function TicketTable({ data }: Props) {
       params.set('page', '1')
       router.replace(`?${params.toString()}`, {scroll: false})
     }
-  }, [table.getState().columnFilters])
+  }, [table.getState().columnFilters]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="mt-6 flex flex-col gap-4">

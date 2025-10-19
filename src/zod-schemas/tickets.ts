@@ -1,6 +1,5 @@
 import {
   createInsertSchema,
-  CreateInsertSchema,
   createSelectSchema,
 } from "drizzle-zod";
 

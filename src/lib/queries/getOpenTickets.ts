@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { customers, tickets } from "@/db/schema";
 
-import { asc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export async function getAllTickets() {
   const results = await db

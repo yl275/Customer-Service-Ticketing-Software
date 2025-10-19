@@ -12,12 +12,10 @@ import { CheckboxWithLabel } from "@/components/inputs/CheckboxWithLabel";
 
 import {
   insertTicketSchema,
-  selectTicketSchema,
   type insertTicketSchemaType,
   type selectTicketSchemaType,
 } from "@/zod-schemas/tickets";
 import {
-  insertCustomerSchemaType,
   selectCustomerSchemaType,
 } from "@/zod-schemas/customer";
 

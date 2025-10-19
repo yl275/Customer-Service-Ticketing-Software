@@ -56,7 +56,7 @@ export const saveCustomerAction = actionClient
         };
       }
       // Existing Customer
-      const result = await db
+      await db
         .update(customers)
         .set({
           firstName: customer.firstName,
